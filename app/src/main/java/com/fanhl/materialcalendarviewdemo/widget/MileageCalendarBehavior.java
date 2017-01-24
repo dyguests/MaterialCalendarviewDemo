@@ -3,14 +3,18 @@ package com.fanhl.materialcalendarviewdemo.widget;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 
 import com.fanhl.materialcalendarviewdemo.model.Report;
 import com.fanhl.materialcalendarviewdemo.util.DateUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayView;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.DayViewProvider;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.MileageDayView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.format.DateFormatDayFormatter;
@@ -52,23 +56,25 @@ public class MileageCalendarBehavior {
     }
 
     private void init() {
-        calendarView.state().edit()
-                .setFirstDayOfWeek(Calendar.MONDAY)
-                .commit();
-        calendarView.setDayFormatter(new DateFormatDayFormatter() {
+        dayFormatter = new DateFormatDayFormatter() {
             @SuppressLint("DefaultLocale") @NonNull @Override
             public String format(@NonNull CalendarDay day) {
                 String dayStr = super.format(day);
 
                 Report report = reportMap.get(DateUtil.date2short(day.getDate()));
-                String mileageStr = "test";
+                String mileageStr = " ";
                 if (report != null) {
                     mileageStr = String.format("%.1fkm", report.getMileage() / 1000);
                 }
 
                 return dayStr + "\n" + mileageStr;
             }
-        });
+        };
+
+        calendarView.state().edit()
+                .setFirstDayOfWeek(Calendar.MONDAY)
+                .commit();
+        calendarView.setDayFormatter(dayFormatter);
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
@@ -79,21 +85,6 @@ public class MileageCalendarBehavior {
         loadingMonths = new HashSet<>();
         loadedMonths = new HashSet<>();
         reportMap = new HashMap<>();
-        dayFormatter = new DateFormatDayFormatter() {
-            @SuppressLint("DefaultLocale") @NonNull @Override
-            public String format(@NonNull CalendarDay day) {
-                String dayStr = super.format(day);
-
-                Report report = reportMap.get(DateUtil.date2short(day.getDate()));
-                String mileageStr = "test";
-                if (report != null) {
-                    mileageStr = String.format("%.1fkm", report.getMileage() / 1000);
-                }
-
-                return dayStr + "\n" + mileageStr;
-            }
-        };
-
         calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay calendarDay) {
@@ -112,21 +103,34 @@ public class MileageCalendarBehavior {
         });
         loadMonthData(new Date());
 
-//        calendarView.addDecorator(new DayViewDecorator() {
-//            @Override public boolean shouldDecorate(CalendarDay day) {
-//                return true;
-//            }
-//
-//            @Override public void decorate(DayViewFacade view) {
-//                view.addSpan(new RelativeSizeSpan(1.2f));
-//            }
-//        });
+        calendarView.addDecorator(new DayViewDecorator() {
+            @Override public boolean shouldDecorate(CalendarDay day) {
+                return true;
+            }
+
+            @Override public void decorate(DayViewFacade view) {
+                view.addSpan(new RelativeSizeSpan(1.4f));
+            }
+        });
 
         calendarView.setDayViewProvider(new DayViewProvider() {
             @Override public DayView getDayView(CalendarDay calendarDay) {
                 return new MileageDayView(calendarView.getContext(), calendarDay, null);
             }
         });
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String meterToMileageString(float meters) {
+        float km = meters / 1000f;
+        String mileageString;
+        if (km < 100) {
+            mileageString = String.format("%.1fkm", km);
+        } else {
+            mileageString = String.format("%dkm", (int) km);
+        }
+
+        return mileageString;
     }
 
     private void loadMonthData(final Date date) {
