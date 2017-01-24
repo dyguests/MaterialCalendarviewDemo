@@ -18,6 +18,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.MileageDayView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
+import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter;
 import com.prolificinteractive.materialcalendarview.format.DateFormatDayFormatter;
 
 import java.util.ArrayList;
@@ -72,11 +73,9 @@ public class MileageCalendarBehavior {
             }
         };
 
-        calendarView.state().edit()
-                .setFirstDayOfWeek(Calendar.MONDAY)
-                .commit();
         calendarView.setTopbarVisible(false);
         calendarView.setWeekDayTextAppearance(R.style.weekday_style, R.style.weekend_style);
+        calendarView.setWeekDayFormatter(new ArrayWeekDayFormatter(calendarView.getContext().getResources().getTextArray(R.array.custom_weekdays)));
 
         calendarView.setDayFormatter(dayFormatter);
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
@@ -107,6 +106,8 @@ public class MileageCalendarBehavior {
         });
         loadMonthData(new Date());
 
+        calendarView.removeDecorators();
+        calendarView.addDecorator(new TodayDecorator(calendarView.getContext()));
         calendarView.addDecorator(new DayViewDecorator() {
             @Override public boolean shouldDecorate(CalendarDay day) {
                 return true;
@@ -116,6 +117,7 @@ public class MileageCalendarBehavior {
                 view.addSpan(new RelativeSizeSpan(1.4f));
             }
         });
+        calendarView.addDecorator(new FutureDayDisableDecorator());
 
         calendarView.setDayViewProvider(new DayViewProvider() {
             @Override public DayView getDayView(CalendarDay calendarDay) {
@@ -123,7 +125,13 @@ public class MileageCalendarBehavior {
             }
         });
 
-
+        //设置日期最大值
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        calendarView.state().edit()
+                .setFirstDayOfWeek(Calendar.MONDAY)
+                .setMaximumDate(calendar.getTime())
+                .commit();
     }
 
     @SuppressLint("DefaultLocale")
