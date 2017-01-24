@@ -58,6 +58,14 @@ public class MileageCalendarBehavior {
     }
 
     private void init() {
+        //设置日期最大值
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        calendarView.state().edit()
+                .setFirstDayOfWeek(Calendar.MONDAY)
+                .setMaximumDate(calendar.getTime())
+                .commit();
+
         dayFormatter = new DateFormatDayFormatter() {
             @SuppressLint("DefaultLocale") @NonNull @Override
             public String format(@NonNull CalendarDay day) {
@@ -124,14 +132,6 @@ public class MileageCalendarBehavior {
                 return new MileageDayView(calendarView.getContext(), calendarDay, null);
             }
         });
-
-        //设置日期最大值
-        final Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        calendarView.state().edit()
-                .setFirstDayOfWeek(Calendar.MONDAY)
-                .setMaximumDate(calendar.getTime())
-                .commit();
     }
 
     @SuppressLint("DefaultLocale")
