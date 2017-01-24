@@ -28,5 +28,6 @@ dependencies {
     compile 'com.android.support:design:25.1.0'
     testCompile 'junit:junit:4.12'
 
-    compile 'com.prolificinteractive:material-calendarview:1.4.2'
+    //compile 'com.prolificinteractive:material-calendarview:1.4.2'
+    compile name: 'materialCalendarViewWithProvider-release', ext: 'aar'//把module依赖，换成aar依赖
 }

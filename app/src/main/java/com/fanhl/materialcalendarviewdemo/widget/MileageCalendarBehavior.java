@@ -1,19 +1,15 @@
 package com.fanhl.materialcalendarviewdemo.widget;
 
 import android.annotation.SuppressLint;
-import android.graphics.Outline;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.text.style.RelativeSizeSpan;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewOutlineProvider;
 
 import com.fanhl.materialcalendarviewdemo.model.Report;
 import com.fanhl.materialcalendarviewdemo.util.DateUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
-import com.prolificinteractive.materialcalendarview.DayViewDecorator;
-import com.prolificinteractive.materialcalendarview.DayViewFacade;
+import com.prolificinteractive.materialcalendarview.DayView;
+import com.prolificinteractive.materialcalendarview.DayViewProvider;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
@@ -116,13 +112,19 @@ public class MileageCalendarBehavior {
         });
         loadMonthData(new Date());
 
-        calendarView.addDecorator(new DayViewDecorator() {
-            @Override public boolean shouldDecorate(CalendarDay day) {
-                return true;
-            }
+//        calendarView.addDecorator(new DayViewDecorator() {
+//            @Override public boolean shouldDecorate(CalendarDay day) {
+//                return true;
+//            }
+//
+//            @Override public void decorate(DayViewFacade view) {
+//                view.addSpan(new RelativeSizeSpan(1.2f));
+//            }
+//        });
 
-            @Override public void decorate(DayViewFacade view) {
-                view.addSpan(new RelativeSizeSpan(1.2f));
+        calendarView.setDayViewProvider(new DayViewProvider() {
+            @Override public DayView getDayView(CalendarDay calendarDay) {
+                return new MileageDayView(calendarView.getContext(), calendarDay, null);
             }
         });
     }
