@@ -17,4 +17,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="weekday_style">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#303D4C</item>
+    </style>
+
+    <style name="weekend_style">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#FFDB0100</item>
+    </style>
 </resources>

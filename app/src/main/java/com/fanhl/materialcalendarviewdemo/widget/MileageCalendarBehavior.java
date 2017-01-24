@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 
+import com.fanhl.materialcalendarviewdemo.R;
 import com.fanhl.materialcalendarviewdemo.model.Report;
 import com.fanhl.materialcalendarviewdemo.util.DateUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -74,6 +75,10 @@ public class MileageCalendarBehavior {
         calendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.MONDAY)
                 .commit();
+        calendarView.setTopbarVisible(false);
+        //calendarView.setWeekDayTextAppearance(R.style.weekday_style, R.style.weekend_style);
+        calendarView.setWeekDayTextAppearance(R.style.weekday_style);
+
         calendarView.setDayFormatter(dayFormatter);
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
@@ -118,6 +123,8 @@ public class MileageCalendarBehavior {
                 return new MileageDayView(calendarView.getContext(), calendarDay, null);
             }
         });
+
+
     }
 
     @SuppressLint("DefaultLocale")
