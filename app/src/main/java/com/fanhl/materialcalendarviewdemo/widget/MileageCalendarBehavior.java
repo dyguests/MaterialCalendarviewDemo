@@ -64,7 +64,7 @@ public class MileageCalendarBehavior {
                 Report report = reportMap.get(DateUtil.date2short(day.getDate()));
                 String mileageStr = " ";
                 if (report != null) {
-                    mileageStr = String.format("%.1fkm", report.getMileage() / 1000);
+                    mileageStr = meterToMileageString(report.getMileage());
                 }
 
                 return dayStr + "\n" + mileageStr;
