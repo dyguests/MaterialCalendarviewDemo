@@ -76,8 +76,7 @@ public class MileageCalendarBehavior {
                 .setFirstDayOfWeek(Calendar.MONDAY)
                 .commit();
         calendarView.setTopbarVisible(false);
-        //calendarView.setWeekDayTextAppearance(R.style.weekday_style, R.style.weekend_style);
-        calendarView.setWeekDayTextAppearance(R.style.weekday_style);
+        calendarView.setWeekDayTextAppearance(R.style.weekday_style, R.style.weekend_style);
 
         calendarView.setDayFormatter(dayFormatter);
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {

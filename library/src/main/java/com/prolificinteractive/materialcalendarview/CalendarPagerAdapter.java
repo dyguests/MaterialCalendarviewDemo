@@ -29,6 +29,7 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
     private Integer color = null;
     private Integer dateTextAppearance = null;
     private Integer weekDayTextAppearance = null;
+    private Integer weekendTextAppearance = null;
     @ShowOtherDates
     private int showOtherDates = MaterialCalendarView.SHOW_DEFAULTS;
     private CalendarDay minDate = null;
@@ -50,8 +51,7 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
         setRangeDates(null, null);
     }
 
-    public void setDayViewProvider(DayViewProvider dayViewProvider)
-    {
+    public void setDayViewProvider(DayViewProvider dayViewProvider) {
         this.dayViewProvider = dayViewProvider;
     }
 
@@ -155,7 +155,7 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
             pagerView.setDateTextAppearance(dateTextAppearance);
         }
         if (weekDayTextAppearance != null) {
-            pagerView.setWeekDayTextAppearance(weekDayTextAppearance);
+            pagerView.setWeekDayTextAppearance(weekDayTextAppearance,weekendTextAppearance);
         }
         pagerView.setShowOtherDates(showOtherDates);
         pagerView.setMinimumDate(minDate);
@@ -236,13 +236,14 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
         return showOtherDates;
     }
 
-    public void setWeekDayTextAppearance(int taId) {
-        if (taId == 0) {
+    public void setWeekDayTextAppearance(int weekdayResourceId, int weekendResourceId) {
+        if (weekdayResourceId == 0 || weekendResourceId == 0) {
             return;
         }
-        this.weekDayTextAppearance = taId;
+        this.weekDayTextAppearance = weekdayResourceId;
+        this.weekendTextAppearance = weekendResourceId;
         for (V pagerView : currentViews) {
-            pagerView.setWeekDayTextAppearance(taId);
+            pagerView.setWeekDayTextAppearance(weekdayResourceId, weekendResourceId);
         }
     }
 
@@ -325,5 +326,9 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
 
     protected int getWeekDayTextAppearance() {
         return weekDayTextAppearance == null ? 0 : weekDayTextAppearance;
+    }
+
+    public Integer getWeekendTextAppearance() {
+        return weekendTextAppearance == null ? 0 : weekendTextAppearance;
     }
 }

@@ -19,7 +19,6 @@ import java.util.List;
 import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.SHOW_DEFAULTS;
 import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.showOtherMonths;
 import static java.util.Calendar.DATE;
-import static java.util.Calendar.DAY_OF_WEEK;
 
 abstract class CalendarPagerView extends ViewGroup implements View.OnClickListener {
 
@@ -107,9 +106,13 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
         invalidateDecorators();
     }
 
-    public void setWeekDayTextAppearance(int taId) {
+    public void setWeekDayTextAppearance(int weekdayResourceId, int weekendResourceId) {
         for (WeekDayView weekDayView : weekDayViews) {
-            weekDayView.setTextAppearance(getContext(), taId);
+            if (weekDayView.getDayOfWeek() == Calendar.SUNDAY || weekDayView.getDayOfWeek() == Calendar.SATURDAY) {
+                weekDayView.setTextAppearance(getContext(), weekendResourceId);
+            } else {
+                weekDayView.setTextAppearance(getContext(), weekdayResourceId);
+            }
         }
     }
 
@@ -252,6 +255,7 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
 
     /**
      * Return the number of rows to display per page
+     *
      * @return
      */
     protected abstract int getRows();

@@ -311,12 +311,12 @@ public class MaterialCalendarView extends ViewGroup {
             }
 
             final int tileWidth = a.getLayoutDimension(R.styleable.MaterialCalendarView_mcv_tileWidth, INVALID_TILE_DIMENSION);
-            if(tileWidth > INVALID_TILE_DIMENSION){
+            if (tileWidth > INVALID_TILE_DIMENSION) {
                 setTileWidth(tileWidth);
             }
 
             final int tileHeight = a.getLayoutDimension(R.styleable.MaterialCalendarView_mcv_tileHeight, INVALID_TILE_DIMENSION);
-            if(tileHeight > INVALID_TILE_DIMENSION){
+            if (tileHeight > INVALID_TILE_DIMENSION) {
                 setTileHeight(tileHeight);
             }
 
@@ -396,7 +396,7 @@ public class MaterialCalendarView extends ViewGroup {
             MonthView monthView = new MonthView(this, currentMonth, mDayViewProvider, getFirstDayOfWeek());
             monthView.setSelectionColor(getSelectionColor());
             monthView.setDateTextAppearance(adapter.getDateTextAppearance());
-            monthView.setWeekDayTextAppearance(adapter.getWeekDayTextAppearance());
+            monthView.setWeekDayTextAppearance(adapter.getWeekDayTextAppearance(), adapter.getWeekendTextAppearance());
             monthView.setShowOtherDates(getShowOtherDates());
             addView(monthView, new LayoutParams(calendarMode.visibleWeeksCount + DAY_NAMES_ROW));
         }
@@ -763,7 +763,15 @@ public class MaterialCalendarView extends ViewGroup {
      * @param resourceId The text appearance resource id.
      */
     public void setWeekDayTextAppearance(int resourceId) {
-        adapter.setWeekDayTextAppearance(resourceId);
+        setWeekDayTextAppearance(resourceId, resourceId);
+    }
+
+    /**
+     * @param weekdayResourceId 平日（非周末）
+     * @param weekendResourceId 周末
+     */
+    public void setWeekDayTextAppearance(int weekdayResourceId, int weekendResourceId) {
+        adapter.setWeekDayTextAppearance(weekdayResourceId,weekendResourceId);
     }
 
     /**
@@ -1480,8 +1488,8 @@ public class MaterialCalendarView extends ViewGroup {
         final int selectedMonth = selectedDate.getMonth();
 
         if (calendarMode == CalendarMode.MONTHS
-            && allowClickDaysOutsideCurrentMonth
-            && currentMonth != selectedMonth) {
+                && allowClickDaysOutsideCurrentMonth
+                && currentMonth != selectedMonth) {
             if (currentDate.isAfter(selectedDate)) {
                 goToPrevious();
             } else if (currentDate.isBefore(selectedDate)) {
