@@ -24,6 +24,10 @@ public class MileageDayView extends DayView {
 
     @Override public void setDayFormatter(DayFormatter formatter) {
         super.setDayFormatter(formatter);
+        setTextWithDayFormatter();
+    }
+
+    private void setTextWithDayFormatter() {
         CharSequence currentLabel = this.getText();
         Object[] spans = null;
         if (currentLabel instanceof Spanned) {
@@ -69,5 +73,10 @@ public class MileageDayView extends DayView {
         } else {
             this.setText(this.getLabel());
         }
+    }
+
+    @Override public void refreshView() {
+        //super.refreshView();
+        setTextWithDayFormatter();
     }
 }

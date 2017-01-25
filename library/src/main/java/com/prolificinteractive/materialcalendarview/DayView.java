@@ -79,10 +79,6 @@ public class DayView extends CheckedTextView {
      */
     public void setDayFormatter(DayFormatter formatter) {
         this.formatter = formatter == null ? DayFormatter.DEFAULT : formatter;
-        setTextWithDayFormatter();
-    }
-
-    private void setTextWithDayFormatter() {
         CharSequence currentLabel = getText();
         Object[] spans = null;
         if (currentLabel instanceof Spanned) {
@@ -282,7 +278,6 @@ public class DayView extends CheckedTextView {
     }
 
     public void refreshView() {
-        //invalidate();
-        setTextWithDayFormatter();
+
     }
 }
