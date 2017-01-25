@@ -12,6 +12,7 @@ import android.support.annotation.ArrayRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.Px;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -65,7 +66,7 @@ import java.util.List;
  * </p>
  */
 public class MaterialCalendarView extends ViewGroup {
-
+    @Px
     public static final int INVALID_TILE_DIMENSION = -10;
 
     /**
@@ -771,7 +772,7 @@ public class MaterialCalendarView extends ViewGroup {
      * @param weekendResourceId 周末
      */
     public void setWeekDayTextAppearance(int weekdayResourceId, int weekendResourceId) {
-        adapter.setWeekDayTextAppearance(weekdayResourceId,weekendResourceId);
+        adapter.setWeekDayTextAppearance(weekdayResourceId, weekendResourceId);
     }
 
     /**
@@ -1959,5 +1960,29 @@ public class MaterialCalendarView extends ViewGroup {
                         : CalendarDay.today());
         invalidateDecorators();
         updateUi();
+    }
+
+    public void refreshMonthView(final Date date) {
+//        post(new Runnable() {
+//            @Override
+//            public void run() {
+        //刷新日历
+        for (Object itemView : adapter.getCurrentViews()) {
+            if (itemView instanceof MonthView) {
+                MonthView monthView = (MonthView) itemView;
+
+                if (monthView.getMonth().getDate().compareTo(date) == 0) {
+                    monthView.refreshView();
+                    break;
+                }
+            }
+        }
+
+//                if (onGetMonthMileageCompletedListener != null) {
+//                    onGetMonthMileageCompletedListener.onCompleted(currentDate, dayMileages);
+//                }
+
+//            }
+//        });
     }
 }

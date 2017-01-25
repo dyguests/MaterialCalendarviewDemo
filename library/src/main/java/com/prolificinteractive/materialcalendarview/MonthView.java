@@ -42,4 +42,29 @@ class MonthView extends CalendarPagerView {
     protected int getRows() {
         return DEFAULT_MAX_WEEKS + DAY_NAMES_ROW;
     }
+
+    public void refreshView() {
+        try {
+//            for (DayMileage dayMileage : mcv.getDayMileages()) {
+//                if (dayMileage.getDate().getMonth() != getMonth().getMonth()
+//                        || dayMileage.getDate().getYear() != dayMileage.getDate().getYear()) {
+//                    continue;
+//                }
+//                if (!dayMileage.isInitialized() || dayMileage.getVehicleReport() == null) {
+//                    continue;
+//                }
+//                for (DayView dayView : monthDayViews) {
+//                    if (dayView.getDate().getDate().compareTo(dayMileage.getDate()) == 0) {
+//                        dayView.setDetail(meterToMileageString(dayMileage.getVehicleReport().getIntraday_mileage()));
+//                    }
+//                }
+//            }
+            for (DayView dayView : dayViews) {
+                    dayView.refreshView();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

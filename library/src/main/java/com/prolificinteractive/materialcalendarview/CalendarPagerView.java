@@ -30,14 +30,14 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
     private final ArrayList<DecoratorResult> decoratorResults = new ArrayList<>();
     @ShowOtherDates
     protected int showOtherDates = SHOW_DEFAULTS;
-    private MaterialCalendarView mcv;
+    protected MaterialCalendarView mcv;
     private CalendarDay firstViewDay;
     private CalendarDay minDate = null;
     private CalendarDay maxDate = null;
     private DayViewProvider dayViewProvider = null;
     private int firstDayOfWeek;
 
-    private final Collection<DayView> dayViews = new ArrayList<>();
+    protected final Collection<DayView> dayViews = new ArrayList<>();
 
     public CalendarPagerView(@NonNull MaterialCalendarView view,
                              CalendarDay firstViewDay,

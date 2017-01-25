@@ -112,7 +112,7 @@ public class MileageCalendarBehavior {
                 loadMonthData(date);
             }
         });
-        loadMonthData(new Date());
+        loadMonthData(DateUtil.getFirstDayInMonth(new Date()));
 
         calendarView.removeDecorators();
         calendarView.addDecorator(new TodayDecorator(calendarView.getContext()));
@@ -181,6 +181,7 @@ public class MileageCalendarBehavior {
     }
 
     private void onMonthReportLoaded(Date date) {
-        calendarView.setDayFormatter(dayFormatter);
+        //calendarView.setDayFormatter(dayFormatter);
+        calendarView.refreshMonthView(date);
     }
 }

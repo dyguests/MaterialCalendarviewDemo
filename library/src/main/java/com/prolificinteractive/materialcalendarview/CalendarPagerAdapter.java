@@ -331,4 +331,8 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
     public Integer getWeekendTextAppearance() {
         return weekendTextAppearance == null ? 0 : weekendTextAppearance;
     }
+
+    public ArrayDeque<V> getCurrentViews() {
+        return currentViews;
+    }
 }
