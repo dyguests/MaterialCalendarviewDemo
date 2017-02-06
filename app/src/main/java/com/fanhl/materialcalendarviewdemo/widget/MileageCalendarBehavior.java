@@ -107,8 +107,6 @@ public class MileageCalendarBehavior {
                 if (loadingMonths.contains(dateStr)) {
                     return;
                 }
-                loadingMonths.add(dateStr);
-
                 loadMonthData(date);
             }
         });
@@ -148,6 +146,8 @@ public class MileageCalendarBehavior {
     }
 
     private void loadMonthData(final Date date) {
+        loadingMonths.add(DateUtil.date2short(date));
+
         new AsyncTask<Void, Void, List<Report>>() {
             @Override protected List<Report> doInBackground(Void... voids) {
                 try {
